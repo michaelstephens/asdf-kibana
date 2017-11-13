@@ -30,11 +30,24 @@ install_kibana() {
   )
 }
 
+get_package_name() {
+  local install_type=$1
+  local version=$2
+  case `uname` in
+    Darwin)
+      "kibana-$version-darwin-x86_64";;
+    Linux)
+      "kibana-$version-linux-x86_64";;
+    ?)
+      echo "Unknown OS, cannot install";;
+  esac
+}
+
 untar_path() {
   local install_type=$1
   local version=$2
   local tmp_download_dir=$3
-  local pkg_name=get_package_name $install_type $version
+  local pkg_name=$(get_package_name $install_type $version)
 
   if [ "$install_type" = "version" ]
   then
@@ -57,7 +70,7 @@ get_download_file_path() {
   local install_type=$1
   local version=$2
   local tmp_download_dir=$3
-  local pkg_name=get_package_name $install_type $version
+  local pkg_name=$(get_package_name $install_type $version)
 
   echo "$tmp_download_dir/$pkg_name"
 }
@@ -67,26 +80,13 @@ function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4
 get_download_url() {
   local install_type=$1
   local version=$2
-  local pkg_name=get_package_name $install_type $version
+  local pkg_name=$(get_package_name $install_type $version)
 
   if [ $(version $version) -gt $(version "4.6.6") ]; then
     echo "https://artifacts.elastic.co/downloads/kibana/$pkg_name.tar.gz"
   else
     echo "https://download.elastic.co/kibana/kibana/$pkg_name.tar.gz"
   fi
-}
-
-get_package_name() {
-  local install_type=$1
-  local version=$2
-  case `uname` in
-    Darwin)
-      "kibana-$version-darwin-x86_64";;
-    Linux)
-      "kibana-$version-linux-x86_64";;
-    ?)
-      echo "Unknown OS, cannot install";;
-  esac
 }
 
 install_kibana $ASDF_INSTALL_TYPE $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
