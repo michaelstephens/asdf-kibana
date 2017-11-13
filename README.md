@@ -1,4 +1,4 @@
-1# asdf-kibana
+# asdf-kibana
 
 Kibana plugin for [asdf](https://github.com/asdf-vm/asdf) version manager
 
