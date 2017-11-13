@@ -35,11 +35,9 @@ get_package_name() {
   local version=$2
   case `uname` in
     Darwin)
-      "kibana-$version-darwin-x86_64";;
+      echo "kibana-$version-darwin-x86_64";;
     Linux)
-      "kibana-$version-linux-x86_64";;
-    ?)
-      echo "Unknown OS, cannot install";;
+      echo "kibana-$version-linux-x86_64";;
   esac
 }
 
