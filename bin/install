@@ -18,7 +18,7 @@ install_kibana() {
   # because we don't want to disturb current working dir
   (
     cd $(dirname $source_path)
-    tar zxf $source_path || exit 1
+    tar -zxf $source_path || exit 1
     cd $(untar_path $install_type $version $tmp_download_dir)
 
 
@@ -70,7 +70,7 @@ get_download_file_path() {
   local tmp_download_dir=$3
   local pkg_name=$(get_package_name $install_type $version)
 
-  echo "$tmp_download_dir/$pkg_name"
+  echo "$tmp_download_dir/$pkg_name.tar.gz"
 }
 
 function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
